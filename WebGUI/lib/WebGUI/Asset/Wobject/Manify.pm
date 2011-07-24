@@ -227,8 +227,8 @@ sub view {
     #This automatically creates template variables for all of your wobject's properties.
     my $var = $self->get;
 
-    #This is an example of debugging code to help you diagnose problems.
-    #$session->log->warn($self->get("templateId"));
+    my $categories = $self->getCategories;
+    $var->{ category_loop } = $categories;
 
     return $self->processTemplate( $var, undef, $self->{_viewTemplate} );
 }
