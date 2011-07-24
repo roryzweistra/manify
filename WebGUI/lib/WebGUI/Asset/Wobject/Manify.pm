@@ -181,6 +181,34 @@ sub purge {
 
 #------------------------------------------------------------------------------------------------------------------
 
+=head2 updateCategory ( )
+
+Updates a user specific category.
+
+=cut
+
+sub updateCategory {
+    my $self            = shift;
+    my $categoryName    = $self->session->db->write( "UPDATE
+            ManifyCategories
+        SET
+            categoryName = ?
+        WHERE
+            categoryId = ?
+        AND
+            userId = ?",
+        [
+            $self->session->form->param( 'categoryName' ),
+            $self->session->form->param( 'categoryId'   ),
+            $self->session->userId,
+        ]
+    );
+
+    return $categoryName;
+}
+
+#------------------------------------------------------------------------------------------------------------------
+
 =head2 view ( )
 
 method called by the www_view method.  Returns a processed template to be displayed within the page style.
