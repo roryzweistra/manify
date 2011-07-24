@@ -56,8 +56,17 @@ sub definition {
     my $class      = shift;
     my $session    = shift;
     my $definition = shift;
-    my $i18n       = WebGUI::International->new( $session, 'Asset_NewWobject' );
+    my $i18n       = WebGUI::International->new( $session, 'Asset_Manify' );
     tie my %properties, 'Tie::IxHash', (
+        categoriesTemplateId  => {
+            fieldType       => "template",
+            defaultValue    => 'NewWobjectTmpl00000001',
+            tab             => "display",
+            noFormPost      => 0,
+            namespace       => "Manify/Categories",
+            hoverHelp       => $i18n->get( 'templateId label description'   ),
+            label           => $i18n->get( 'templateId label'               ),
+        },
         templateId  => {
             fieldType       => "template",
             defaultValue    => 'NewWobjectTmpl00000001',
@@ -222,6 +231,26 @@ sub view {
     #$session->log->warn($self->get("templateId"));
 
     return $self->processTemplate( $var, undef, $self->{_viewTemplate} );
+}
+
+#------------------------------------------------------------------------------------------------------------------
+
+=head2 www_getCategories ( )
+
+The www_ method for getting the user specific categories.
+
+=cut
+
+sub www_getCategories {
+    my $self            = shift;
+    my $categories      = $self->getCategories;
+
+    my $template = WebGUI::Asset::Template->new( $self->session, $self->get( 'categoriesTemplateId' ) );
+    $template = $template->process( $categories );
+    return ( $template )
+        ? $template
+        : 'template could not be instanciated'
+    ;
 }
 
 1;
