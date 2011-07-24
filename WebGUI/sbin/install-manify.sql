@@ -20,6 +20,7 @@ CREATE TABLE `ManifyPlaylists` (
     `playlistId` char(22) binary not null,
     `userId` char(22) binary not null,
     `playlistName` varchar(250) not null,
+    `playlistUrl` varchar(250) not null,
     `categoryId` char(22) binary not null,
     primary key (`playlistId`),
     key user_playlist (`userId`, `playlistId),
