@@ -44,6 +44,30 @@ sub createCategory {
 
 #------------------------------------------------------------------------------------------------------------------
 
+=head2 createPlaylist ( )
+
+Adds a user specific playlist.
+
+=cut
+
+sub createPlaylist {
+    my $self            = shift;
+    my $playlistName    = $self->session->db->write( "INSERT INTO
+        ManifyPlaylists
+            ('userId', 'playlistName')
+        VALUES
+            (?,?)",
+        [
+            $self->session->userId,
+            $self->session->form->param( 'playlistName' )
+        ]
+    );
+
+    return $playlistName;
+}
+
+#------------------------------------------------------------------------------------------------------------------
+
 =head2 definition ( )
 
 defines wobject properties for New Wobject instances.  You absolutely need
