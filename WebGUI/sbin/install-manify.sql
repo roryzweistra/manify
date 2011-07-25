@@ -4,8 +4,8 @@ CREATE TABLE `Manify` (
     `categoriesTemplateId` char(22) binary not null,
     `userId` char(22) not null,
     primary key (`assetId`),
-    key `user_asset` (`userId`, assetId`)
-) ENGINE-MyISAM CHARSET=utf8;
+    key `user_asset` (`userId`, `assetId`)
+) ENGINE=MyISAM CHARSET=utf8;
 
 CREATE TABLE `ManifyCategories` (
     `categoryId` char(22) binary not null,
@@ -14,7 +14,7 @@ CREATE TABLE `ManifyCategories` (
     primary key (`categoryId`),
     key `user_category` (`userId`, `categoryId`),
     key `user_category_name` (`userId`, `categoryName`)
-) ENGINE-MyISAM CHARSET=utf8;
+) ENGINE=MyISAM CHARSET=utf8;
 
 CREATE TABLE `ManifyPlaylists` (
     `playlistId` char(22) binary not null,
@@ -26,4 +26,4 @@ CREATE TABLE `ManifyPlaylists` (
     key `user_playlist` (`userId`, `playlistId`),
     key `user_category_playlist` (`userId`, `categoryId`, `playlistId`),
     key `playlist_ name` (`playlistName`)
-) ENGINE-MyISAM CHARSET=utf8;
+) ENGINE=MyISAM CHARSET=utf8;
