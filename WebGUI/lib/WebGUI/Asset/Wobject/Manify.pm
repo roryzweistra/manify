@@ -94,10 +94,11 @@ sub createPlaylist {
     my $self            = shift;
     my $playlistName    = $self->session->db->write( "INSERT INTO
         ManifyPlaylists
-            ('userId', 'playlistName', 'playlistUrl')
+            (playlistId, userId, playlistName, playlistUrl)
         VALUES
             (?,?,?)",
         [
+            $self->session->id->generate,
             $self->session->user->userId,
             $self->session->form->param( 'playlistName' ),
             $self->session->form->param( 'playlistUrl'  )
@@ -123,6 +124,15 @@ sub definition {
     my $definition = shift;
     my $i18n       = WebGUI::International->new( $session, 'Asset_Manify' );
     tie my %properties, 'Tie::IxHash', (
+        playlistTemplateId  => {
+            fieldType       => "template",
+            defaultValue    => 'hIGd_4kqwuemTaLGlUgDGg',
+            tab             => "display",
+            noFormPost      => 0,
+            namespace       => "Manify/Playlist",
+            hoverHelp       => $i18n->get( 'templateId label description'   ),
+            label           => $i18n->get( 'templateId label'               ),
+        },
         categoryTemplateId  => {
             fieldType       => "template",
             defaultValue    => 'hIGd_4kqwuemTaLGlUgDGg',
@@ -352,6 +362,42 @@ sub www_getCategories {
         : 'template could not be instanciated'
     ;
 }
+
+#------------------------------------------------------------------------------------------------------------------
+
+=head2 www_addPlaylist ( )
+
+The www_ method for adding a new playlist.
+
+=cut
+
+sub www_addPlaylist {
+    my $self    = shift;
+    my $var     = $self->playlistForm;
+
+    my $template = WebGUI::Asset::Template->new( $self->session, $self->get( 'playlistTemplateId' ) );
+    $template = $template->process( $var );
+    return ( $template )
+        ? $template
+        : 'template could not be instanciated'
+    ;
+}
+
+#------------------------------------------------------------------------------------------------------------------
+
+=head2 www_addPlaylistSave ( )
+
+www_ method that triggers the actual playlist insertion in the database
+
+=cut
+
+sub www_addPlaylistSave {
+    my $self        = shift;
+    my $playlist    = $self->createPlaylist;
+
+    return $playlist;
+}
+
 
 #------------------------------------------------------------------------------------------------------------------
 
