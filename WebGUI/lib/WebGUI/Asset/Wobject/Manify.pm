@@ -42,7 +42,7 @@ sub categoryForm {
     });
 
     $form->{ category_name   } = WebGUI::Form::text( $session, {
-        name    => 'subject',
+        name    => 'category_name',
         value   => ( $categoryName ) ? $categoryName : '',
         size    => 50,
     });
