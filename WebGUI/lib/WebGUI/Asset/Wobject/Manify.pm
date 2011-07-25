@@ -306,10 +306,15 @@ The www_ method for adding a new category.
 =cut
 
 sub www_addCategory {
-    my $self        = shift;
-    my $category    = $self->addCategory;
+    my $self    = shift;
+    my $var     = $self->categoryForm;
 
-    return $category;
+    my $template = WebGUI::Asset::Template->new( $self->session, $self->get( 'categoryTemplateId' ) );
+    $template = $template->process( $var );
+    return ( $template )
+        ? $template
+        : 'template could not be instanciated'
+    ;
 }
 
 #------------------------------------------------------------------------------------------------------------------
@@ -323,7 +328,7 @@ www_ method that triggers the actual insertion in the database
 sub www_addCategorySave {
     my $self        = shift;
     my $category    = $self->createCategory;
-    
+
     return $category;
 }
 
