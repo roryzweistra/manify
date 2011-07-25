@@ -20,6 +20,45 @@ use base 'WebGUI::Asset::Wobject';
 
 #------------------------------------------------------------------------------------------------------------------
 
+=head2 addCategoryForm ( )
+
+Creates form elements for creating a new category.
+
+=cut
+
+sub categoryForm {
+    my $self            = shift;
+    my $session         = $self->session;
+    my $categoryName    = shift; # Optional
+    my $form;
+
+    $form->{ formHeader     } = WebGUI::Form::formHeader( $session, {
+        action  => $self->getUrl
+    });
+
+    $form->{ hidden         } = WebGUI::Form::Hidden( $session, {
+        name    => 'func',
+        value   => 'addCategorySave',
+    });
+
+    $form->{ category_name   } = WebGUI::Form::text( $session, {
+        name    => 'subject',
+        value   => ( $categoryName ) ? $categoryName : '',
+        size    => 50,
+    });
+
+    $form->{ submit         } = WebGUI::Form::Submit( $session, {
+        name    => 'save',
+        value   => 'Save',
+    });
+
+    $form->{ formFooter     } = WebGUI::Form::formFooter( $session );
+
+    return $form;
+}
+
+#------------------------------------------------------------------------------------------------------------------
+
 =head2 createCategory ( )
 
 Adds a user specific category.
@@ -83,6 +122,15 @@ sub definition {
     my $definition = shift;
     my $i18n       = WebGUI::International->new( $session, 'Asset_Manify' );
     tie my %properties, 'Tie::IxHash', (
+        categoryTemplateId  => {
+            fieldType       => "template",
+            defaultValue    => 'hIGd_4kqwuemTaLGlUgDGg',
+            tab             => "display",
+            noFormPost      => 0,
+            namespace       => "Manify/Category",
+            hoverHelp       => $i18n->get( 'templateId label description'   ),
+            label           => $i18n->get( 'templateId label'               ),
+        },
         categoriesTemplateId  => {
             fieldType       => "template",
             defaultValue    => 'hIGd_4kqwuemTaLGlUgDGg',
@@ -293,10 +341,24 @@ The www_ method for updating a category.
 =cut
 
 sub www_updateCategory {
-    my $self        = shift;
-    my $category    = $self->updateCategory;
+    my $self    = shift;
+    my $id      = $self->session->form->param( 'category_id'    );
+    my $name    = $self->session->form->param( 'category_name'  );
+    my $var;
 
-    return $category;
+    if ( $id && $name ) {
+        $var = $self->categoryForm( $id, $name );
+    }
+    else {
+        $var->{ error } = 'Error';
+    }
+
+    my $template = WebGUI::Asset::Template->new( $self->session, $self->get( 'categoryTemplateId' ) );
+    $template = $template->process( $var );
+    return ( $template )
+        ? $template
+        : 'template could not be instanciated'
+    ;
 }
 
 1;
