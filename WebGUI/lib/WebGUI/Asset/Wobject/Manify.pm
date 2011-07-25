@@ -85,7 +85,7 @@ sub definition {
     tie my %properties, 'Tie::IxHash', (
         categoriesTemplateId  => {
             fieldType       => "template",
-            defaultValue    => 'NewWobjectTmpl00000001',
+            defaultValue    => 'hIGd_4kqwuemTaLGlUgDGg',
             tab             => "display",
             noFormPost      => 0,
             namespace       => "Manify/Categories",
