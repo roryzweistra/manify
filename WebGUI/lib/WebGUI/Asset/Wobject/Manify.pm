@@ -38,7 +38,7 @@ sub categoryForm {
 
     $form->{ hidden         } = WebGUI::Form::Hidden( $session, {
         name    => 'func',
-        value   => 'addCategorySave',
+        value   => ( $categoryName ) ? 'updateCategorySave' : 'addCategorySave',
     });
 
     $form->{ category_name   } = WebGUI::Form::text( $session, {
