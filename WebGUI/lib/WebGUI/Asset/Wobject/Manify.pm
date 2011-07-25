@@ -283,10 +283,10 @@ sub view {
     if ( $categories ) {
 
         foreach my $category ( @{ $categories } ) {
-            $categoryVar->{ categoryId   } = $category->{ categoryId     };
-            $categoryVar->{ categoryName } = $category->{ categoryName   };
-
-            push @categoriesLoop, $categoryVar;
+            push @categoriesLoop, {
+                $categoryVar->{ categoryId   } => $category->{ categoryId     },
+                $categoryVar->{ categoryName } => $category->{ categoryName   }
+            }
         }
     }
     else {
