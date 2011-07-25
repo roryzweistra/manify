@@ -26,5 +26,5 @@ CREATE TABLE `ManifyPlaylists` (
     primary key (`playlistId`),
     key `user_playlist` (`userId`, `playlistId`),
     key `user_category_playlist` (`userId`, `categoryId`, `playlistId`),
-    key `playlist_ name` (`playlistName`)
+    key `playlist_name` (`playlistName`)
 ) ENGINE=MyISAM CHARSET=utf8;
