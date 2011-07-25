@@ -314,6 +314,21 @@ sub www_addCategory {
 
 #------------------------------------------------------------------------------------------------------------------
 
+=head2 www_addCategorySave ( )
+
+www_ method that triggers the actual insertion in the database
+
+=cut
+
+sub www_addCategorySave {
+    my $self        = shift;
+    my $category    = $self->createCategory;
+    
+    return $category;
+}
+
+#------------------------------------------------------------------------------------------------------------------
+
 =head2 www_getCategories ( )
 
 The www_ method for getting the user specific categories.
