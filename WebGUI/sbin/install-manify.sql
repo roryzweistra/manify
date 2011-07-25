@@ -2,6 +2,7 @@ CREATE TABLE `Manify` (
     `assetId` char(22) binary not null,
     `templateId` char(22) binary not null,
     `categoriesTemplateId` char(22) binary not null,
+    `categoryTemplateId` char(22) binary not null,
     `revisionDate` bigint(20) not null,
     primary key (`assetId`, `revisionDate`)
 ) ENGINE=MyISAM CHARSET=utf8;
