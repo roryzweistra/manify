@@ -274,6 +274,45 @@ sub updateCategory {
 
 #------------------------------------------------------------------------------------------------------------------
 
+=head2 addPlaylistForm ( )
+
+Creates form elements for creating a new playlist.
+
+=cut
+
+sub playlistForm {
+    my $self            = shift;
+    my $session         = $self->session;
+    my $playlistName    = shift; # Optional
+    my $form;
+
+    $form->{ formHeader     } = WebGUI::Form::formHeader( $session, {
+        action  => $self->getUrl
+    });
+
+    $form->{ hidden         } = WebGUI::Form::Hidden( $session, {
+        name    => 'func',
+        value   => ( $playlistName ) ? 'updatePlaylistSave' : 'addPlaylistSave',
+    });
+
+    $form->{ category_name   } = WebGUI::Form::text( $session, {
+        name    => 'playlist_name',
+        value   => ( $playlistName ) ? $playlistName : '',
+        size    => 50,
+    });
+
+    $form->{ submit         } = WebGUI::Form::Submit( $session, {
+        name    => 'save',
+        value   => 'Save',
+    });
+
+    $form->{ formFooter     } = WebGUI::Form::formFooter( $session );
+
+    return $form;
+}
+
+#------------------------------------------------------------------------------------------------------------------
+
 =head2 view ( )
 
 method called by the www_view method.  Returns a processed template to be displayed within the page style.
