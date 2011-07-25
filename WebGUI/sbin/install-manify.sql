@@ -3,7 +3,7 @@ CREATE TABLE `Manify` (
     `templateId` char(22) binary not null,
     `categoriesTemplateId` char(22) binary not null,
     `revisionDate` bigint(20) not null,
-    primary key (`assetId`, `revisionDate`),
+    primary key (`assetId`, `revisionDate`)
 ) ENGINE=MyISAM CHARSET=utf8;
 
 CREATE TABLE `ManifyCategories` (
