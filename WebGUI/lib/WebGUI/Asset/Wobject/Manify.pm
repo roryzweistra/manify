@@ -227,17 +227,24 @@ sub view {
 
     #This automatically creates template variables for all of your wobject's properties.
     my $var = $self->get;
-    my $categoriesLoop;
+    my @categoriesLoop;
     my $categoryVar;
+    my $categories = $self->getCategories;
 
-    foreach my $category ( @{ $self->getCategories } ) {
-        $categoryVar->{ categoryId   } = $category->{ categoryId     };
-        $categoryVar->{ categoryName } = $category->{ categoryName   };
+    if ( $categories ) {
 
-        push @{ $categoriesLoop }, $categoryVar;
+        foreach my $category ( @{ $categories } ) {
+            $categoryVar->{ categoryId   } = $category->{ categoryId     };
+            $categoryVar->{ categoryName } = $category->{ categoryName   };
+
+            push @categoriesLoop, $categoryVar;
+        }
+    }
+    else {
+        $var->{ no_categories } = 1;
     }
 
-    $var->{ category_loop } = $categoriesLoop;
+    $var->{ category_loop } = \@categoriesLoop;
 
     return $self->processTemplate( $var, undef, $self->{_viewTemplate} );
 }
