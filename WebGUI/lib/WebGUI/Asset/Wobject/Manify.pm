@@ -284,6 +284,7 @@ sub playlistForm {
     my $self            = shift;
     my $session         = $self->session;
     my $playlistName    = shift; # Optional
+    my $playlistUrl     = shift; # Optional
     my $form;
 
     $form->{ formHeader     } = WebGUI::Form::formHeader( $session, {
@@ -295,9 +296,15 @@ sub playlistForm {
         value   => ( $playlistName ) ? 'updatePlaylistSave' : 'addPlaylistSave',
     });
 
-    $form->{ category_name   } = WebGUI::Form::text( $session, {
+    $form->{ playlist_name   } = WebGUI::Form::text( $session, {
         name    => 'playlist_name',
         value   => ( $playlistName ) ? $playlistName : '',
+        size    => 50,
+    });
+
+    $form->{ playlist_url   } = WebGUI::Form::text( $session, {
+        name    => 'playlist_url',
+        value   => ( $playlistUrl ) ? $playlistUrl : '',
         size    => 50,
     });
 
