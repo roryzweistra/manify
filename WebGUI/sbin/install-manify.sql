@@ -4,7 +4,7 @@ CREATE TABLE `Manify` (
     `categoriesTemplateId` char(22) binary not null,
     `userId` char(22) not null,
     `revisionDate` bigint(20) not null,
-    primary key (`assetId`),
+    primary key (`assetId`, `revisionDate`),
     key `user_asset` (`userId`, `assetId`)
 ) ENGINE=MyISAM CHARSET=utf8;
 
