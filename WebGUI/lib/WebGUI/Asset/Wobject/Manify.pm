@@ -56,7 +56,7 @@ sub createPlaylist {
         ManifyPlaylists
             ('userId', 'playlistName', 'playlistUrl')
         VALUES
-            (?,?)",
+            (?,?,?)",
         [
             $self->session->userId,
             $self->session->form->param( 'playlistName' ),
