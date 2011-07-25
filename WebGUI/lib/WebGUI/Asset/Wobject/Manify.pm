@@ -140,7 +140,7 @@ returns all user specific categories
 
 sub getCategories {
     my $self        = shift;
-    my $categories  = $self->session->db->buildArrayRef( 'SELECT
+    my $categories  = $self->session->db->buildArrayRefOfHashRefs( 'SELECT
             categoryName
         FROM
             ManifyCategories
