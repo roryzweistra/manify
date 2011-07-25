@@ -96,7 +96,7 @@ sub createPlaylist {
         ManifyPlaylists
             (playlistId, userId, playlistName, playlistUrl)
         VALUES
-            (?,?,?)",
+            (?,?,?,?)",
         [
             $self->session->id->generate,
             $self->session->user->userId,
