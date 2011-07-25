@@ -94,7 +94,7 @@ sub definition {
         },
         templateId  => {
             fieldType       => "template",
-            defaultValue    => 'NewWobjectTmpl00000001',
+            defaultValue    => 'hIGd_4kqwuemTaLGlUgDGg',
             tab             => "display",
             noFormPost      => 0,
             namespace       => "Manify",
@@ -227,9 +227,17 @@ sub view {
 
     #This automatically creates template variables for all of your wobject's properties.
     my $var = $self->get;
+    my $categoriesLoop;
+    my $categoryVar;
 
-    my $categories = $self->getCategories;
-    $var->{ category_loop } = $categories;
+    foreach my $category ( @{ $self->getCategories } ) {
+        $categoryVar->{ categoryId   } = $category->{ categoryId     };
+        $categoryVar->{ categoryName } = $category->{ categoryName   };
+
+        push @{ $categoriesLoop }, $categoryVar;
+    }
+
+    $var->{ category_loop } = $categoriesLoop;
 
     return $self->processTemplate( $var, undef, $self->{_viewTemplate} );
 }
@@ -267,6 +275,21 @@ sub www_getCategories {
         ? $template
         : 'template could not be instanciated'
     ;
+}
+
+#------------------------------------------------------------------------------------------------------------------
+
+=head2 www_updateCategory ( )
+
+The www_ method for updating a category.
+
+=cut
+
+sub www_updateCategory {
+    my $self        = shift;
+    my $category    = $self->updateCategory;
+
+    return $category;
 }
 
 1;
