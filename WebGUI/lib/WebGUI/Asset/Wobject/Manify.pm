@@ -69,10 +69,11 @@ sub createCategory {
     my $self            = shift;
     my $categoryName    = $self->session->db->write( "INSERT INTO
         ManifyCategories
-            (userId, categoryName)
+            (categoryId, userId, categoryName)
         VALUES
-            (?,?)",
+            (?,?,?)",
         [
+            $self->session->id->generate,
             $self->session->user->userId,
             $self->session->form->param( 'category_name' )
         ]
