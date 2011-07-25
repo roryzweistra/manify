@@ -74,7 +74,7 @@ sub createCategory {
             (?,?)",
         [
             $self->session->user->userId,
-            $self->session->form->param( 'categoryName' )
+            $self->session->form->param( 'category_name' )
         ]
     );
 
