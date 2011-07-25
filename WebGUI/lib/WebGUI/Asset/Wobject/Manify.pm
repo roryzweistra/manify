@@ -54,12 +54,13 @@ sub createPlaylist {
     my $self            = shift;
     my $playlistName    = $self->session->db->write( "INSERT INTO
         ManifyPlaylists
-            ('userId', 'playlistName')
+            ('userId', 'playlistName', 'playlistUrl')
         VALUES
             (?,?)",
         [
             $self->session->userId,
-            $self->session->form->param( 'playlistName' )
+            $self->session->form->param( 'playlistName' ),
+            $self->session->form->param( 'playlistUrl'  )
         ]
     );
 
@@ -153,28 +154,6 @@ sub getCategories {
 
 #------------------------------------------------------------------------------------------------------------------
 
-=head2 getEditForm ( )
-
-returns the tabform object that will be used in generating the edit page for New Wobjects.
-This method is optional if you set autoGenerateForms=1 in the definition.
-
-=cut
-
-sub getEditForm {
-    my $self    = shift;
-    my $tabform = $self->SUPER::getEditForm();
-
-    $tabform->getTab("display")->template(
-        value     => $self->getValue("templateId"),
-        label     => WebGUI::International::get( "template_label", "Asset_NewWobject" ),
-        namespace => "NewWobject"
-    );
-
-    return $tabform;
-}
-
-#------------------------------------------------------------------------------------------------------------------
-
 =head2 prepareView ( )
 
 See WebGUI::Asset::prepareView() for details.
@@ -202,9 +181,7 @@ wobject instances, you will need to purge them here.
 
 sub purge {
     my $self = shift;
-
-    #purge your wobject-specific data here.  This does not include fields
-    # you create for your NewWobject asset/wobject table.
+    
     return $self->SUPER::purge;
 }
 
