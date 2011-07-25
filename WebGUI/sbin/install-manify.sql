@@ -2,7 +2,6 @@ CREATE TABLE `Manify` (
     `assetId` char(22) binary not null,
     `templateId` char(22) binary not null,
     `categoriesTemplateId` char(22) binary not null,
-    `userId` char(22) not null,
     `revisionDate` bigint(20) not null,
     primary key (`assetId`, `revisionDate`),
     key `user_asset` (`userId`, `assetId`)
