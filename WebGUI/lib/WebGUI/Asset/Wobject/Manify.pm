@@ -34,7 +34,7 @@ sub createCategory {
         VALUES
             (?,?)",
         [
-            $self->session->userId,
+            $self->session->user->userId,
             $self->session->form->param( 'categoryName' )
         ]
     );
@@ -58,7 +58,7 @@ sub createPlaylist {
         VALUES
             (?,?,?)",
         [
-            $self->session->userId,
+            $self->session->user->userId,
             $self->session->form->param( 'playlistName' ),
             $self->session->form->param( 'playlistUrl'  )
         ]
@@ -146,7 +146,7 @@ sub getCategories {
             ManifyCategories
         WHERE
             userId =?',
-        [ $self->session->userId ]
+        [ $self->session->user->userId ]
     );
 
     return $categories;
@@ -206,7 +206,7 @@ sub updateCategory {
         [
             $self->session->form->param( 'categoryName' ),
             $self->session->form->param( 'categoryId'   ),
-            $self->session->userId,
+            $self->session->user->userId,
         ]
     );
 
