@@ -163,8 +163,8 @@ See WebGUI::Asset::prepareView() for details.
 sub prepareView {
     my $self = shift;
     $self->SUPER::prepareView();
-    my $template = WebGUI::Asset::Template->new( $self->session, $self->get("templateId") );
-    $template->prepare($self->getMetaDataAsTemplateVariables);
+    my $template = WebGUI::Asset::Template->new( $self->session, $self->get( 'templateId' ) );
+    $template->prepare( $self->getMetaDataAsTemplateVariables );
     $self->{_viewTemplate} = $template;
 }
 
@@ -181,7 +181,7 @@ wobject instances, you will need to purge them here.
 
 sub purge {
     my $self = shift;
-    
+
     return $self->SUPER::purge;
 }
 
@@ -195,14 +195,14 @@ Updates a user specific category.
 
 sub updateCategory {
     my $self            = shift;
-    my $categoryName    = $self->session->db->write( "UPDATE
+    my $categoryName    = $self->session->db->write( 'UPDATE
             ManifyCategories
         SET
             categoryName = ?
         WHERE
             categoryId = ?
         AND
-            userId = ?",
+            userId = ?',
         [
             $self->session->form->param( 'categoryName' ),
             $self->session->form->param( 'categoryId'   ),
@@ -232,6 +232,21 @@ sub view {
     $var->{ category_loop } = $categories;
 
     return $self->processTemplate( $var, undef, $self->{_viewTemplate} );
+}
+
+#------------------------------------------------------------------------------------------------------------------
+
+=head2 www_addCategory ( )
+
+The www_ method for adding a new category.
+
+=cut
+
+sub www_addCategory {
+    my $self        = shift;
+    my $category    = $self->addCategory;
+
+    return $category;
 }
 
 #------------------------------------------------------------------------------------------------------------------
