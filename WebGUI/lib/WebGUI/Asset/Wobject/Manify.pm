@@ -224,7 +224,7 @@ sub getPlaylists {
     my $categories  = $self->session->db->buildArrayRefOfHashRefs( 'SELECT
             playlistId, playlistName, categoryId, playlistUrl
         FROM
-            ManifyCategories
+            ManifyPlaylists
         WHERE
             userId =?',
         [ $self->session->user->userId ]
