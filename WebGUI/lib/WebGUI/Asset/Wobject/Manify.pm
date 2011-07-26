@@ -366,8 +366,8 @@ sub www_addCategory {
     my $self    = shift;
     my $var     = $self->categoryForm;
 
-    my $template = WebGUI::Asset::Template->new( $self->session, $self->get( 'categoryTemplateId' ) );
-    $template = $template->process( $var );
+    my $template    = WebGUI::Asset::Template->new( $self->session, $self->get( 'categoryTemplateId' ) );
+    $template       = $template->process( $var );
     return ( $template )
         ? $template
         : 'template could not be instanciated'
@@ -401,8 +401,8 @@ sub www_getCategories {
     my $self            = shift;
     my $categories      = $self->getCategories;
 
-    my $template = WebGUI::Asset::Template->new( $self->session, $self->get( 'categoriesTemplateId' ) );
-    $template = $template->process( $categories );
+    my $template    = WebGUI::Asset::Template->new( $self->session, $self->get( 'categoriesTemplateId' ) );
+    $template       = $template->process( $categories );
     return ( $template )
         ? $template
         : 'template could not be instanciated'
@@ -421,8 +421,8 @@ sub www_addPlaylist {
     my $self    = shift;
     my $var     = $self->playlistForm;
 
-    my $template = WebGUI::Asset::Template->new( $self->session, $self->get( 'playlistTemplateId' ) );
-    $template = $template->process( $var );
+    my $template    = WebGUI::Asset::Template->new( $self->session, $self->get( 'playlistTemplateId' ) );
+    $template       = $template->process( $var );
     return ( $template )
         ? $template
         : 'template could not be instanciated'
@@ -466,8 +466,8 @@ sub www_updateCategory {
         $var->{ error } = 'Error';
     }
 
-    my $template = WebGUI::Asset::Template->new( $self->session, $self->get( 'categoryTemplateId' ) );
-    $template = $template->process( $var );
+    my $template    = WebGUI::Asset::Template->new( $self->session, $self->get( 'categoryTemplateId' ) );
+    $template       = $template->process( $var );
     return ( $template )
         ? $template
         : 'template could not be instanciated'
