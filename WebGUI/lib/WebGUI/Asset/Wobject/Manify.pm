@@ -213,6 +213,28 @@ sub getCategories {
 
 #------------------------------------------------------------------------------------------------------------------
 
+=head2 getPlaylists ( )
+
+returns all user specific playlists
+
+=cut
+
+sub getPlaylists {
+    my $self        = shift;
+    my $categories  = $self->session->db->buildArrayRefOfHashRefs( 'SELECT
+            playlistId, playlistName, categoryId, playlistUrl
+        FROM
+            ManifyCategories
+        WHERE
+            userId =?',
+        [ $self->session->user->userId ]
+    );
+
+    return $categories;
+}
+
+#------------------------------------------------------------------------------------------------------------------
+
 =head2 prepareView ( )
 
 See WebGUI::Asset::prepareView() for details.
@@ -333,7 +355,6 @@ sub view {
     #This automatically creates template variables for all of your wobject's properties.
     my $var = $self->get;
     my @categoriesLoop;
-    my $categoryVar;
     my $categories = $self->getCategories;
 
     if ( $categories ) {
@@ -349,7 +370,25 @@ sub view {
         $var->{ no_categories } = 1;
     }
 
+    my @playlistsLoop;
+    my $playlists = $self->getPlaylists;
+
+    if ( $playlists ) {
+
+        foreach my $playlist ( @{ $playlists } ) {
+            push ( @playlistsLoop, {
+                playlistId      => $playlist->{ playlistId      },
+                playlistName    => $playlist->{ playlistName    },
+                playlistUrl     => $playlist->{ playlistUrl     }
+            });
+        }
+    }
+    else {
+        $var->{ no_playlists } = 1;
+    }
+
     $var->{ category_loop } = \@categoriesLoop;
+    $var->{ playlist_loop } = \@playlistsLoop;
 
     return $self->processTemplate( $var, undef, $self->{_viewTemplate} );
 }
@@ -400,6 +439,26 @@ The www_ method for getting the user specific categories.
 sub www_getCategories {
     my $self            = shift;
     my $categories      = $self->getCategories;
+
+    my $template    = WebGUI::Asset::Template->new( $self->session, $self->get( 'categoriesTemplateId' ) );
+    $template       = $template->process( $categories );
+    return ( $template )
+        ? $template
+        : 'template could not be instanciated'
+    ;
+}
+
+#------------------------------------------------------------------------------------------------------------------
+
+=head2 www_getPlaylsits ( )
+
+The www_ method for getting the user specific playlists.
+
+=cut
+
+sub www_getPlaylists {
+    my $self            = shift;
+    my $categories      = $self->getPlaylists;
 
     my $template    = WebGUI::Asset::Template->new( $self->session, $self->get( 'categoriesTemplateId' ) );
     $template       = $template->process( $categories );
