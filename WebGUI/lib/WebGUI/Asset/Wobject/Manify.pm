@@ -100,8 +100,8 @@ sub createPlaylist {
         [
             $self->session->id->generate,
             $self->session->user->userId,
-            $self->session->form->param( 'playlistName' ),
-            $self->session->form->param( 'playlistUrl'  )
+            $self->session->form->param( 'playlist_name' ),
+            $self->session->form->param( 'playlist_url'  )
         ]
     );
 
