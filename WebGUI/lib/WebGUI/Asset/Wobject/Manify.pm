@@ -33,7 +33,8 @@ sub categoryForm {
     my $form;
 
     $form->{ formHeader     } = WebGUI::Form::formHeader( $session, {
-        action  => $self->getUrl
+        action  => $self->getUrl,
+        extras  => 'id="category-form"'
     });
 
     $form->{ hidden         } = WebGUI::Form::Hidden( $session, {
@@ -41,7 +42,7 @@ sub categoryForm {
         value   => ( $categoryName ) ? 'updateCategorySave' : 'addCategorySave',
     });
 
-    $form->{ category_name   } = WebGUI::Form::text( $session, {
+    $form->{ category_name  } = WebGUI::Form::text( $session, {
         name    => 'category_name',
         value   => ( $categoryName ) ? $categoryName : '',
         size    => 50,
@@ -310,7 +311,8 @@ sub playlistForm {
     my $form;
 
     $form->{ formHeader     } = WebGUI::Form::formHeader( $session, {
-        action  => $self->getUrl
+        action  => $self->getUrl,
+        extras  => 'id="playlist-form"'
     });
 
     $form->{ hidden         } = WebGUI::Form::Hidden( $session, {
@@ -354,6 +356,11 @@ sub view {
 
     #This automatically creates template variables for all of your wobject's properties.
     my $var = $self->get;
+
+    if ( $session->user->isVisitor ) {
+        return $self->processTemplate( $var, undef, $self->{_viewTemplate} );
+    }
+
     my @categoriesLoop;
     my $categories = $self->getCategories;
 
