@@ -67,20 +67,26 @@ Adds a user specific category.
 =cut
 
 sub createCategory {
-    my $self            = shift;
+    my $self    = shift;
+    my $id      = $self->session->id->generate;
+
     my $categoryName    = $self->session->db->write( "INSERT INTO
         ManifyCategories
             (categoryId, userId, categoryName)
         VALUES
             (?,?,?)",
         [
-            $self->session->id->generate,
+            $id,
             $self->session->user->userId,
             $self->session->form->param( 'category_name' )
         ]
     );
 
-    return $categoryName;
+    my $var;
+    $var->{ id      } = $id;
+    $var->{ name    } = $self->session->form_>param( 'category_name' );
+
+    return $var;
 }
 
 #------------------------------------------------------------------------------------------------------------------
@@ -354,9 +360,10 @@ sub view {
     my $self    = shift;
     my $session = $self->session;
 
-    #This automatically creates template variables for all of your wobject's properties.
+    # This automatically creates template variables for all of your wobject's properties.
     my $var = $self->get;
 
+    # A visitor should not be allowed to add categories and playlists
     if ( $session->user->isVisitor ) {
         $var->{ isVisitor } = 1;
         return $self->processTemplate( $var, undef, $self->{_viewTemplate} );
@@ -430,10 +437,10 @@ www_ method that triggers the actual insertion in the database
 =cut
 
 sub www_addCategorySave {
-    my $self        = shift;
-    my $category    = $self->createCategory;
+    my $self            = shift;
+    my $categoryData    = $self->createCategory;
 
-    return $category;
+    return $categoryData;
 }
 
 #------------------------------------------------------------------------------------------------------------------
@@ -526,6 +533,7 @@ sub www_updateCategory {
     my $name    = $self->session->form->param( 'category_name'  );
     my $var;
 
+    # Only update the form if the id and name can be found
     if ( $id && $name ) {
         $var = $self->categoryForm( $id, $name );
     }
