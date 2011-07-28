@@ -10,6 +10,7 @@ $VERSION = "1.0.0";
 
 use strict;
 use Tie::IxHash;
+use JSON;
 use WebGUI::International;
 use WebGUI::Utility;
 use base 'WebGUI::Asset::Wobject';
@@ -439,8 +440,9 @@ www_ method that triggers the actual insertion in the database
 sub www_addCategorySave {
     my $self            = shift;
     my $categoryData    = $self->createCategory;
+    my $json            = JSON->new;
 
-    return $categoryData;
+    return $json->encode( $categoryData );
 }
 
 #------------------------------------------------------------------------------------------------------------------
