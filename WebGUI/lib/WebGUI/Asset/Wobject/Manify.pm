@@ -527,6 +527,21 @@ sub www_addPlaylistSave {
     return $json->encode( $playlistData );
 }
 
+#------------------------------------------------------------------------------------------------------------------
+
+=head2 www_addPlaylistToCategory ( )
+
+www_ method for adding a playlist to a category
+
+=cut
+
+sub www_addPlaylistToCategory {
+    my $self    = shift;
+    my $data    = $self->addPlaylistToCategory;
+    my $json    = JSON->new;
+
+    return $json->encode( $data );
+}
 
 #------------------------------------------------------------------------------------------------------------------
 
