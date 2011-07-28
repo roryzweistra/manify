@@ -21,7 +21,38 @@ use base 'WebGUI::Asset::Wobject';
 
 #------------------------------------------------------------------------------------------------------------------
 
-=head2 addCategoryForm ( )
+=head2 addPlaylistToCategory
+
+Adds the playlist to a category
+
+=cut
+
+sub addPlaylistToCategory {
+    my $self    = shift;
+    my $id      = $self->session->id->generate;
+    my $insert  = $self->session->db->write( "INSERT INTO
+        ManifyPlaylistsCategories
+            (id, playlistId, categoryId)
+        VALUES
+            (?,?,?)",
+        [
+            $id,
+            $self->session->form->param( 'playlist_id' ),
+            $self->session->form->param( 'category_id' ),
+        ]
+    );
+
+    my $var;
+    $var->{ id          } = $id;
+    $var->{ playlistId  } = $self->session->form->param( 'playlist_id' );
+    $var->{ categoryId  } = $self->session->form->param( 'category_id' );
+
+    return $var;
+}
+
+#------------------------------------------------------------------------------------------------------------------
+
+=head2 categoryForm ( )
 
 Creates form elements for creating a new category.
 
