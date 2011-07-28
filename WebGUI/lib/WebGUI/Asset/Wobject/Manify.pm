@@ -358,6 +358,7 @@ sub view {
     my $var = $self->get;
 
     if ( $session->user->isVisitor ) {
+        $var->{ isVisitor } = 1;
         return $self->processTemplate( $var, undef, $self->{_viewTemplate} );
     }
 
