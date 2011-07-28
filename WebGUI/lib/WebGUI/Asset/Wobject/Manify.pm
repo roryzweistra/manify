@@ -85,7 +85,7 @@ sub createCategory {
 
     my $var;
     $var->{ id      } = $id;
-    $var->{ name    } = $self->session->form_>param( 'category_name' );
+    $var->{ name    } = $self->session->form->param( 'category_name' );
 
     return $var;
 }
