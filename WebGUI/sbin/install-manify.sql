@@ -22,9 +22,16 @@ CREATE TABLE `ManifyPlaylists` (
     `userId` char(22) binary not null,
     `playlistName` varchar(250) not null,
     `playlistUrl` varchar(250) not null,
-    `categoryId` char(22) binary not null,
     primary key (`playlistId`),
     key `user_playlist` (`userId`, `playlistId`),
     key `user_category_playlist` (`userId`, `categoryId`, `playlistId`),
     key `playlist_name` (`playlistName`)
 ) ENGINE=MyISAM CHARSET=utf8;
+
+CREATE TABLE `ManifyPlaylistsCategories` (
+    `id` char(22) binary not null,
+    `playlistId` char(22) binary not null,
+    `categoryId` char(22) binary not null,
+    primary key (`id`),
+    key `playlist_category` (`playlistId`, `categoryId`)
+) ENGINE=MyISAM CHARSET=utf8
