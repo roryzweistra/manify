@@ -99,21 +99,27 @@ Adds a user specific playlist.
 =cut
 
 sub createPlaylist {
-    my $self            = shift;
+    my $self    = shift;
+    my $id      = $self->session->id->generate;
     my $playlistName    = $self->session->db->write( "INSERT INTO
         ManifyPlaylists
             (playlistId, userId, playlistName, playlistUrl)
         VALUES
             (?,?,?,?)",
         [
-            $self->session->id->generate,
+            $id,
             $self->session->user->userId,
             $self->session->form->param( 'playlist_name' ),
             $self->session->form->param( 'playlist_url'  )
         ]
     );
 
-    return $playlistName;
+    my $var;
+    $var->{ id      } = $id;
+    $var->{ name    } = $self->session->form->param( 'playlist_name' );
+    $var->{ url     } = $self->session->form->param( 'playlist_url' );
+
+    return $var;
 }
 
 #------------------------------------------------------------------------------------------------------------------
@@ -514,10 +520,11 @@ www_ method that triggers the actual playlist insertion in the database
 =cut
 
 sub www_addPlaylistSave {
-    my $self        = shift;
-    my $playlist    = $self->createPlaylist;
+    my $self            = shift;
+    my $playlistData    = $self->createPlaylist;
+    my $json            = JSON->new;
 
-    return $playlist;
+    return $json->encode( $playlistData );
 }
 
 
