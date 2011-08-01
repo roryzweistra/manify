@@ -220,6 +220,33 @@ sub definition {
 
 #------------------------------------------------------------------------------------------------------------------
 
+=head2 dropCategory ( )
+
+Remove category from category list
+
+=cut
+
+sub dropCategory {
+    my $self        = shift;
+    my $categoryId  = shift || return '0';
+
+    my $sql = $self->session->db->write( "DELETE FROM
+            ManifyCategories
+        WHERE
+            userId = ?
+        AND
+            categoryId = ?",
+        [
+            $self->session->user->userId,
+            $categoryId
+        ]
+    );
+
+    return $sql;
+}
+
+#------------------------------------------------------------------------------------------------------------------
+
 =head2 duplicate ( )
 
 duplicates a New Wobject.  This method is unnecessary, but if you have
@@ -266,7 +293,7 @@ returns all user specific playlists
 
 sub getPlaylists {
     my $self        = shift;
-    my $categories  = $self->session->db->buildArrayRefOfHashRefs( 'SELECT
+    my $playlists   = $self->session->db->buildArrayRefOfHashRefs( 'SELECT
             playlistId, playlistName, categoryId, playlistUrl
         FROM
             ManifyPlaylists
@@ -275,7 +302,7 @@ sub getPlaylists {
         [ $self->session->user->userId ]
     );
 
-    return $categories;
+    return $playlists;
 }
 
 #------------------------------------------------------------------------------------------------------------------
