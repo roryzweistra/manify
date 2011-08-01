@@ -415,6 +415,30 @@ sub playlistForm {
 
 #------------------------------------------------------------------------------------------------------------------
 
+=head2 unlinkPlaylistsFromCategory ( )
+
+Unlinks all the playlists from a category
+
+=cut
+
+sub unlinkPlaylistsFromCategory {
+    my $self        = shift;
+    my $categoryId  = $self->session->form->param( 'category_id' ) || return '0';
+
+    my $sql = $self->session->db->write( 'DELETE FROM
+            ManifyPlaylistsCategories
+        WHERE
+            categoryId = ?',
+        [
+            $categoryId
+        ]
+    );
+
+    return $sql;
+}
+
+#------------------------------------------------------------------------------------------------------------------
+
 =head2 view ( )
 
 method called by the www_view method.  Returns a processed template to be displayed within the page style.
