@@ -623,8 +623,8 @@ The www_ method for getting the user specific playlists.
 =cut
 
 sub www_getPlaylistsForCateogory {
-    my $self            = shift;
-    my $playlists      = $self->getPlaylistsForCategory;
+    my $self        = shift;
+    my $playlists   = $self->getPlaylistsForCategory;
 
     my $template    = WebGUI::Asset::Template->new( $self->session, $self->get( 'playlistsTemplateId' ) );
     $template       = $template->process( $playlists );
