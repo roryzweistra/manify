@@ -307,6 +307,37 @@ sub getPlaylists {
 
 #------------------------------------------------------------------------------------------------------------------
 
+=head2 getPlaylistsForCategory ( )
+
+returns all user specific playlists for a given category
+
+=cut
+
+sub getPlaylistsForCategory {
+    my $self        = shift;
+    my $categoryId  = $self->session->form->param( 'category_id' );
+    my $playlists   = $self->session->db->buildArrayRefOfHashRefs( 'SELECT
+            ManifyPlaylists.playlistId, playlistName, playlistUrl
+        FROM
+            ManifyPlaylists,
+            ManifyPlaylistsCategories
+        WHERE
+            ManifyPlaylists.userId = ?
+        AND
+            ManifyPlaylistsCategories.categoryId = ?
+        AND
+            ManifyPlaylistsCategories.playlistId = ManifyPlaylists.playlistId',
+        [
+            $self->session->user->userId,
+            $categoryId
+        ]
+    );
+
+    return $playlists;
+}
+
+#------------------------------------------------------------------------------------------------------------------
+
 =head2 prepareView ( )
 
 See WebGUI::Asset::prepareView() for details.
