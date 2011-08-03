@@ -178,6 +178,15 @@ sub definition {
             hoverHelp       => $i18n->get( 'templateId label description'   ),
             label           => $i18n->get( 'templateId label'               ),
         },
+        playlistsTemplateId  => {
+            fieldType       => "template",
+            defaultValue    => 'hIGd_4kqwuemTaLGlUgDGg',
+            tab             => "display",
+            noFormPost      => 0,
+            namespace       => "Manify/Playlists",
+            hoverHelp       => $i18n->get( 'templateId label description'   ),
+            label           => $i18n->get( 'templateId label'               ),
+        },
         categoryTemplateId  => {
             fieldType       => "template",
             defaultValue    => 'hIGd_4kqwuemTaLGlUgDGg',
@@ -594,10 +603,31 @@ The www_ method for getting the user specific playlists.
 
 sub www_getPlaylists {
     my $self            = shift;
-    my $categories      = $self->getPlaylists;
+    my $playlists      = $self->getPlaylists;
 
     my $template    = WebGUI::Asset::Template->new( $self->session, $self->get( 'categoriesTemplateId' ) );
-    $template       = $template->process( $categories );
+    $template       = $template->process( $playlists );
+    return ( $template )
+        ? $template
+        : 'template could not be instanciated'
+    ;
+}
+
+
+#------------------------------------------------------------------------------------------------------------------
+
+=head2 www_getPlaylistsForCategory ( )
+
+The www_ method for getting the user specific playlists.
+
+=cut
+
+sub www_getPlaylistsForCateogory {
+    my $self            = shift;
+    my $playlists      = $self->getPlaylistsForCategory;
+
+    my $template    = WebGUI::Asset::Template->new( $self->session, $self->get( 'playlistsTemplateId' ) );
+    $template       = $template->process( $playlists );
     return ( $template )
         ? $template
         : 'template could not be instanciated'
