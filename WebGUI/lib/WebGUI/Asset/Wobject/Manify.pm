@@ -622,7 +622,7 @@ The www_ method for getting the user specific playlists.
 
 =cut
 
-sub www_getPlaylistsForCateogory {
+sub www_getPlaylistsForCategory {
     my $self        = shift;
     my $playlists   = $self->getPlaylistsForCategory;
 
